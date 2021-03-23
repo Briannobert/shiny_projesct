@@ -1,0 +1,80 @@
+---
+title: "Car presentation"
+author: "Kipchumba Brian"
+date: "3/23/2021"
+output: ioslides_presentation
+---
+
+
+## My Reproducible Pitch
+
+### See the Regression Models Course Project  
+
+- mygithubub: *https://github.com/Briannobert/shiny_projesct*
+- Using this Mtcars dataset i created a Shiny application and deployed it to my R server .I had to register first
+- I credit my summary to 
+```{r}
+?mtcars
+```
+
+
+---
+
+## mtcars Dataset
+
+### Motor Trend Car Road Test
+
+-The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973-74 models).
+### Source
+
+```{r}
+library(datasets)
+head(mtcars, 5)
+```
+---
+
+##Note
+
+-Henderson and Velleman (1981) comment in a footnote to Table 1: ‘Hocking [original transcriber]'s noncrucial coding of the Mazda's rotary engine as a straight six-cylinder engine and the Porsche's flat engine as a V engine, as well as the inclusion of the diesel Mercedes 240D, have been retained to enable direct comparisons to be made with previous analyses.’
+
+## Mtcars Dataset - Format
+
+**A data frame with 32 observations on 11 variables.**
+
+| Index | Field | Detail |
+------- | ----- | ------ |
+| [, 1] | mpg | Miles/(US) gallon |
+| [, 2]  | cyl | Number of cylinders |
+| [, 3]	| disp | Displacement (cu.in.) |
+| [, 4]	| hp | Gross horsepower |
+| [, 5]	| drat | Rear axle ratio |
+| [, 6]	| wt | Weight (lb/1000) |
+| [, 7]	| qsec | 1/4 mile time |
+| [, 8]	| vs | V/S |
+| [, 9]	| am | Transmission (0 = automatic, 1 = manual) |
+| [,10]	| gear | Number of forward gears |
+| [,11]	| carb | Number of carburetors |
+
+---
+
+## Main Analysis  Code
+
+```{r
+  FTP <- reactive({
+    paste("mpg ~", "as.integer(", input$variable, ")")  })
+  
+  fit <- reactive({
+    lm(as.formula(FTP()), data=mpgData)  })
+  ...
+  output$fit <- renderPrint({
+    summary(fit()) })
+  
+  output$mpgPlot <- renderPlot({
+    with(mpgData, {
+      plot(as.formula(FTP()))
+      abline(default(), col=2)
+    })  })
+```
+##source
+
+-Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411.
